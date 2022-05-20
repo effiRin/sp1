@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+    <bean id="loginFailHandler" class="org.zerock.sp1.security.handler.CustomLoginFailHandler"></bean>
+
+    <security:http>
+
+        <security:form-login login-page="/customLogin" authentication-failure-handler-ref="loginFailHandler"/>
+
+<!--        <security:intercept-url pattern="/sample/all"></security:intercept-url>-->
+<!--        <security:intercept-url pattern="/sample/member" access="hasRole('ROLE_MEMBER')"></security:intercept-url>-->
+<!--        <security:intercept-url pattern="/sample/admin" access="hasRole('ROLE_ADMIN')"></security:intercept-url>-->
+<!--    위에꺼 없애도 됨 / 없애면 권한체크 없이 될 것 -->
+        <security:access-denied-handler error-page="/accessError"></security:access-denied-handler>
+
+
+        <security:csrf disabled="true"></security:csrf>
+
+        <security:remember-me key="12345678" data-source-ref="dataSource"></security:remember-me>
+
+    </security:http>
+
+
+    <security:authentication-manager>
+        <security:authentication-provider user-service-ref="customUserDetailsService">
+            <security:password-encoder ref="passwordEncoder"></security:password-encoder>
+        </security:authentication-provider>
+
+    </security:authentication-manager>
+
+    <context:component-scan base-package="org.zerock.sp1.security"></context:component-scan>
+
+</beans>
+        <!--            <security:user-service>-->
+        <!--                <security:user name="user00" authorities="ROLE_MEMBER" password="$2a$10$CFGxXjKVdJxTJV.cTxQ2RuY1j984hT0IzzlUeWjEh9ITKDSh2N3sK"></security:user>-->
+        <!--                <security:user name="admin00" authorities="ROLE_MEMBER" password="$2a$10$CFGxXjKVdJxTJV.cTxQ2RuY1j984hT0IzzlUeWjEh9ITKDSh2N3sK"></security:user>-->
+        <!--            </security:user-service> // 이거 지워지고 우리가 만든애 쓰면 된다.-->

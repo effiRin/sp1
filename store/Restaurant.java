@@ -1,0 +1,16 @@
+package org.zerock.sp1.store;
+
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@ToString
+@Service
+@RequiredArgsConstructor
+public class Restaurant {
+
+    private final Chef chef;
+
+
+}
